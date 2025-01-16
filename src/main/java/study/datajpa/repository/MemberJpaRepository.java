@@ -34,7 +34,7 @@ public class MemberJpaRepository {
 
     public long count() {
         // getSingleResult() 시 단건 반환
-        return em.createQuery("select count(m) from Member", Long.class).getSingleResult();
+        return em.createQuery("select count(m) from Member m", Long.class).getSingleResult();
     }
 
     public Member find(Long id) {

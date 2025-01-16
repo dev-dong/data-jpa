@@ -41,11 +41,11 @@ class MemberJpaRepositoryTest {
 
         Member findMember1 = memberJpaRepository.findById(member1.getId()).get();
         Member findMember2 = memberJpaRepository.findById(member2.getId()).get();
-        assertThat(findMember1.getId()).isEqualTo(member1.getId());
-        assertThat(findMember1.getUsername()).isEqualTo(member1.getUsername());
+        assertThat(findMember1).isEqualTo(member1);
+        assertThat(findMember2).isEqualTo(member2);
 
         List<Member> all = memberJpaRepository.findAll();
-        assertThat(all).hasSize(2);
+        assertThat(all.size()).isEqualTo(2);
 
         long count = memberJpaRepository.count();
         assertThat(count).isEqualTo(2);
