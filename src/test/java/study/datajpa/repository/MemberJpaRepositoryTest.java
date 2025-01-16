@@ -19,6 +19,9 @@ class MemberJpaRepositoryTest {
     @Autowired
     MemberJpaRepository memberJpaRepository;
 
+    @Autowired
+    MemberRepository memberRepository;
+
     // JPA의 모든 데이터 변경은 @Transactional 안에서 이루어져야 한다.
     @Test
     public void testMember() {
@@ -36,24 +39,37 @@ class MemberJpaRepositoryTest {
     public void basicCRUD() {
         Member member1 = new Member("member1");
         Member member2 = new Member("member2");
-        memberJpaRepository.save(member1);
-        memberJpaRepository.save(member2);
+        memberRepository.save(member1);
+        memberRepository.save(member2);
 
-        Member findMember1 = memberJpaRepository.findById(member1.getId()).get();
-        Member findMember2 = memberJpaRepository.findById(member2.getId()).get();
+        Member findMember1 = memberRepository.findById(member1.getId()).get();
+        Member findMember2 = memberRepository.findById(member2.getId()).get();
         assertThat(findMember1).isEqualTo(member1);
         assertThat(findMember2).isEqualTo(member2);
 
-        List<Member> all = memberJpaRepository.findAll();
+        List<Member> all = memberRepository.findAll();
         assertThat(all.size()).isEqualTo(2);
 
-        long count = memberJpaRepository.count();
+        long count = memberRepository.count();
         assertThat(count).isEqualTo(2);
 
-        memberJpaRepository.delete(member1);
-        memberJpaRepository.delete(member2);
+        memberRepository.delete(member1);
+        memberRepository.delete(member2);
 
-        long deleteCount = memberJpaRepository.count();
+        long deleteCount = memberRepository.count();
         assertThat(deleteCount).isEqualTo(0);
+    }
+
+    @Test
+    public void findByUsernameAndAgeGreaterThen() {
+        Member m1 = new Member("AAA", 10);
+        Member m2 = new Member("AAA", 20);
+        memberJpaRepository.save(m1);
+        memberJpaRepository.save(m2);
+
+        List<Member> result = memberJpaRepository.findByUsernameAndAgeGreaterThen("AAA", 15);
+        assertThat(result.get(0).getUsername()).isEqualTo("AAA");
+        assertThat(result.get(0).getAge()).isEqualTo(20);
+        assertThat(result.size()).isEqualTo(1);
     }
 }

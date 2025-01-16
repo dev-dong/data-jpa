@@ -37,6 +37,11 @@ public class Member {
         }
     }
 
+    public Member(String username, int age) {
+        this.username = username;
+        this.age = age;
+    }
+
     public void changeTeam(Team team) {
         this.team = team;
         // 객체이기 때문에 나만 변경하는게 아니라 반대쪽 team도 변경해줘야 한다.
