@@ -144,4 +144,16 @@ class MemberRepositoryTest {
         }
     }
 
+    @Test
+    public void queryHint() {
+        Member member1 = new Member("member1", 10);
+        memberRepository.save(member1);
+        em.flush();
+        em.clear();
+
+        // when
+        Member findMember = memberRepository.findById(member1.getId()).get();
+        findMember.setUsername("member2");
+    }
+
 }
