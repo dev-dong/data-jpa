@@ -152,8 +152,10 @@ class MemberRepositoryTest {
         em.clear();
 
         // when
-        Member findMember = memberRepository.findById(member1.getId()).get();
+        Member findMember = memberRepository.findReadOnlyByUsername("member1");
         findMember.setUsername("member2");
+
+        em.flush();
     }
 
 }
